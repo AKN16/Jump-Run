@@ -2,25 +2,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 15f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundCheck;
+
     private Animator animator;
     private bool isGrounded;
     private Rigidbody2D rb;
     private GameManager gameManager;
-    private AudioManager audioManager;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         gameManager = FindAnyObjectByType<GameManager>();
-        audioManager = FindAnyObjectByType<AudioManager>();
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (gameManager.IsGameOver() || gameManager.IsGameWin()) return;
@@ -39,12 +37,14 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
+        // Kiểm tra chạm đất trước, rồi mới xét nhảy (để dùng giá trị mới nhất)
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            audioManager.PlayJumpSound();
+            AudioManager.Instance.PlayJumpSound();
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
     private void UpdateAnimation()
