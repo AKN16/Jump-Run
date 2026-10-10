@@ -4,14 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
     private int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject GameOverUI;
     [SerializeField] private GameObject GameWinUI;
     private bool isGameOver = false;
     private bool isGameWin = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         UpdateScore();
@@ -35,9 +34,12 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (isGameOver) return; // tránh gọi nhiều lần
+
         isGameOver = true;
         GameOverUI.SetActive(true);
         score = 0;
+        AudioManager.Instance.PlayGameOver(); // phát âm thua 1 lần
         Time.timeScale = 0;
     }
 
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1;
         isGameOver = false;
+        isGameWin = false;
         score = 0;
         UpdateScore();
         SceneManager.LoadScene("Game");
@@ -59,8 +62,8 @@ public class GameManager : MonoBehaviour
 
     public void Gotomenu()
     {
-        SceneManager.LoadScene("Menu");
         Time.timeScale = 1;
+        SceneManager.LoadScene("Menu");
     }
 
     public bool IsGameOver()
