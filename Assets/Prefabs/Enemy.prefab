@@ -178,14 +178,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   speed: 1
   patrolDistance: 5
-  detectRange: 4
+  detectRange: 5
+  verticalTolerance: 1
   chaseSpeed: 3
   maxChaseDistance: 5
+  loseRangeMultiplier: 1.5
+  loseSightTime: 1
+  reDetectCooldown: 1.5
+  stopDistanceX: 0.3
+  turnPauseTime: 0.05
   groundCheck: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   groundCheckDistance: 0.3
+  groundCheckForward: 0.3
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  wallCheckDistance: 0.1
 --- !u!50 &1745678783222108688
 Rigidbody2D:
   serializedVersion: 5
